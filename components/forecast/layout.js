@@ -14,21 +14,22 @@ class Layout extends Component {
   componentDidMount() {
     const coords = {
       latitude: 36.18333,
-      longitude: 44.01193
+      longitude: 44.01193,
     }
-    fetch(
-      `https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily?lang=en&lat=${coords.latitude}&lon=${coords.longitude}`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "weatherbit-v1-mashape.p.rapidapi.com",
-          "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
-        }
-      }
-    )
+    // fetch(
+    //   `https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily?lang=en&lat=${coords.latitude}&lon=${coords.longitude}`,
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       "x-rapidapi-host": "weatherbit-v1-mashape.p.rapidapi.com",
+    //       "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
+    //     }
+    //   }
+    // )
+    fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=7a778f6837ef4ab69f0b50c2b0a0c25d&lat=${coords.latitude}&lon=${coords.longitude}`)
       .then(response => response.json())
       .then(results => {
-        if (results.data.length > 0) {
+        if (results && results.data.length > 0) {
           this.props.saveResults(results.data.slice(0, 7))
         }
       })
@@ -37,6 +38,7 @@ class Layout extends Component {
       })
   }
   buildWeeklyForecast = (lang) => {
+    console.log(this.props.forecastResults)
     return this.props.forecastResults.map(item => {
       return (
         <DayCard
@@ -51,6 +53,7 @@ class Layout extends Component {
     })
   }
   render() {
+    this.props.forecastResults.length > 0 && this.buildWeeklyForecast("en")
     const lang = this.props.language.english ? "en": this.props.language.kurdish ? "ku":"sy"
     return (
       <View style={{...styles.container, backgroundColor: this.props.theme.light ? forecastTheme.container.light:forecastTheme.container.dark}}>

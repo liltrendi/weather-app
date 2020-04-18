@@ -20,16 +20,17 @@ class Layout extends Component {
       latitude: 36.18333,
       longitude: 44.01193
     }
-    fetch(
-      `https://weatherbit-v1-mashape.p.rapidapi.com/current?lang=en&lon=${city.longitude}&lat=${city.latitude}`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "weatherbit-v1-mashape.p.rapidapi.com",
-          "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
-        }
-      }
-    )
+    // fetch(
+    //   `https://weatherbit-v1-mashape.p.rapidapi.com/current?lang=en&lon=${city.longitude}&lat=${city.latitude}`,
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       "x-rapidapi-host": "weatherbit-v1-mashape.p.rapidapi.com",
+    //       "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
+    //     }
+    //   }
+    // )
+    fetch(`https://api.weatherbit.io/v2.0/current?key=7a778f6837ef4ab69f0b50c2b0a0c25d&lat=${city.latitude}&lon=${city.longitude}`)
       .then(response => response.json())
       .then(results => {
         if (results.data.length > 0) {

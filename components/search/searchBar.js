@@ -23,16 +23,24 @@ class SearchBar extends Component {
     this.props.clearErrors()
     this.props.clearResults()
     this.props.showLoader(true)
+    console.log("Data passed")
     this.searchForCity(this.props.city)
   }
   searchForCity = city => {
-    fetch(`https://wft-geo-db.p.mashape.com/v1/geo/cities?namePrefix=${city}`, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
-        "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
-      }
-    })
+    // fetch(`https://wft-geo-db.p.mashape.com/v1/geo/cities?namePrefix=${city}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
+    //     "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
+    //   }
+    // })
+    fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${city}`, {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
+		"x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
+	}
+})
       .then(response => response.json())
       .then(results => {
         if (results.data.length === 0) {
@@ -48,24 +56,29 @@ class SearchBar extends Component {
       })
   }
   retrieveCityWeather = city => {
-    fetch(
-      `https://weatherbit-v1-mashape.p.rapidapi.com/current?lang=en&lon=${
-        this.props.searchedCity.longitude
-          ? this.props.searchedCity.longitude
-          : city.longitude
-      }&lat=${
-        this.props.searchedCity.latitude
-          ? this.props.searchedCity.latitude
-          : city.latitude
-      }`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "weatherbit-v1-mashape.p.rapidapi.com",
-          "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
-        }
-      }
-    )
+    // fetch(
+    //   `https://weatherbit-v1-mashape.p.rapidapi.com/current?lang=en&lon=${
+    //     this.props.searchedCity.longitude
+    //       ? this.props.searchedCity.longitude
+    //       : city.longitude
+    //   }&lat=${
+    //     this.props.searchedCity.latitude
+    //       ? this.props.searchedCity.latitude
+    //       : city.latitude
+    //   }`,
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       "x-rapidapi-host": "weatherbit-v1-mashape.p.rapidapi.com",
+    //       "x-rapidapi-key": "cf25797ed0msh851cd5c55d08153p154590jsnd5abbb83c108"
+    //     }
+    //   }
+    // )
+    fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=7a778f6837ef4ab69f0b50c2b0a0c25d&lat=${this.props.searchedCity.latitude
+    ? this.props.searchedCity.latitude
+    : city.latitude}&lon=${this.props.searchedCity.longitude
+    ? this.props.searchedCity.longitude
+    : city.longitude}`)
       .then(response => response.json())
       .then(results => {
         if (results.data.length < 1) {
